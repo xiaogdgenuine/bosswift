@@ -52,6 +52,7 @@ enum CommandImporter {
                 if FileManager.default.fileExists(atPath: iconPath.path.removingPercentEncoding ?? iconPath.path) {
                     try? FileManager.default.removeItem(at: newIconPath)
                     try? FileManager.default.moveItem(at: iconPath, to: newIconPath)
+                    DataSource.shared.commandIcons[updatedCommand.id] = NSImage(contentsOf: newIconPath)
                 }
             }
 
@@ -73,6 +74,7 @@ enum CommandImporter {
                 if FileManager.default.fileExists(atPath: iconPath.path.removingPercentEncoding ?? iconPath.path) {
                     try? FileManager.default.removeItem(at: newIconPath)
                     try? FileManager.default.moveItem(at: iconPath, to: newIconPath)
+                    DataSource.shared.commandIcons[updatedCommand.id] = NSImage(contentsOf: newIconPath)
                 }
             }
         }

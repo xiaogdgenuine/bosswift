@@ -26,7 +26,7 @@
 		47AC905527EB031700029254 /* ConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AC903E27EB031700029254 /* ConsoleView.swift */; };
 		47AC905727EB031700029254 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AC904027EB031700029254 /* LoadingView.swift */; };
 		47AC905927EB031700029254 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47AC904227EB031700029254 /* Info.plist */; };
-		B0393FCA285A278F001A29B1 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = B0393FC9285A278F001A29B1 /* LaunchAtLogin */; };
+		B029A1DB287BA3760067EC78 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = B029A1DA287BA3760067EC78 /* LaunchAtLogin */; };
 		B0393FCC285A278F001A29B1 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = B0393FCB285A278F001A29B1 /* Introspect */; };
 		B0393FCF285A27B6001A29B1 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = B0393FCE285A27B6001A29B1 /* Swifter */; };
 		B0393FD1285B487D001A29B1 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0393FD0285B487D001A29B1 /* Command.swift */; };
@@ -147,10 +147,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0393FCA285A278F001A29B1 /* LaunchAtLogin in Frameworks */,
 				B0393FCC285A278F001A29B1 /* Introspect in Frameworks */,
 				B0393FE2285BF152001A29B1 /* KeyboardShortcuts in Frameworks */,
 				B0393FCF285A27B6001A29B1 /* Swifter in Frameworks */,
+				B029A1DB287BA3760067EC78 /* LaunchAtLogin in Frameworks */,
 				B0B03DD228646A8F00E54DAF /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,11 +382,11 @@
 			);
 			name = Bosswift;
 			packageProductDependencies = (
-				B0393FC9285A278F001A29B1 /* LaunchAtLogin */,
 				B0393FCB285A278F001A29B1 /* Introspect */,
 				B0393FCE285A27B6001A29B1 /* Swifter */,
 				B0393FE1285BF152001A29B1 /* KeyboardShortcuts */,
 				B0B03DD128646A8F00E54DAF /* ZIPFoundation */,
+				B029A1DA287BA3760067EC78 /* LaunchAtLogin */,
 			);
 			productName = Bosswift;
 			productReference = 47408E3627EB007B0023FE0D /* Bosswift.app */;
@@ -418,11 +418,11 @@
 			);
 			mainGroup = 47408E2D27EB007B0023FE0D;
 			packageReferences = (
-				47408E6D27EB01390023FE0D /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				B095132E2855D99100E0AF74 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				B0393FCD285A27B6001A29B1 /* XCRemoteSwiftPackageReference "swifter" */,
 				B0393FE0285BF152001A29B1 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				B0B03DD028646A8F00E54DAF /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				B029A1D9287BA3760067EC78 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 47408E3727EB007B0023FE0D /* Products */;
 			projectDirPath = "";
@@ -740,12 +740,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		47408E6D27EB01390023FE0D /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		B029A1D9287BA3760067EC78 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = e8171b3e38a2816f579f58f3dac1522aa39efe41;
 			};
 		};
 		B0393FCD285A27B6001A29B1 /* XCRemoteSwiftPackageReference "swifter" */ = {
@@ -783,9 +783,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B0393FC9285A278F001A29B1 /* LaunchAtLogin */ = {
+		B029A1DA287BA3760067EC78 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 47408E6D27EB01390023FE0D /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = B029A1D9287BA3760067EC78 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 		B0393FCB285A278F001A29B1 /* Introspect */ = {

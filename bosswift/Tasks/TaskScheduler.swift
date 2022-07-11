@@ -167,7 +167,7 @@ class TaskScheduler: ObservableObject {
         tell application "Terminal"
             do script "echo 'Syncing latest Terminal Environment variables....'; printenv > '\(Storage.commandRCFilePath.path)' && echo 'Sync latest Terminal Environment variables success!!!!!';exit"
 
-            sleep 0.5
+            delay 0.5
             repeat with w in windows
                 set lastW to w
             end repeat
