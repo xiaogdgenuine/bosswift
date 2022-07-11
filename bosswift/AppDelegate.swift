@@ -91,6 +91,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             atPath: "\(assetsFolderUrl.path)/\(fileName)",
                             toPath: "\(Storage.commandsDirectory.path)/\(universalCommand.id).png"
                         )
+                        DataSource.shared.commandIcons[universalCommand.id] = NSImage(contentsOf: Storage.iconPathFor(command: universalCommand))
                     }
 
                     if let projectCommand = projectCommands.first { $0.commandKeyword == fileNameWithoutExt } {
@@ -99,6 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             atPath: "\(assetsFolderUrl.path)/\(fileName)",
                             toPath: "\(Storage.commandsDirectory.path)/\(projectCommand.id).png"
                         )
+                        DataSource.shared.commandIcons[projectCommand.id] = NSImage(contentsOf: Storage.iconPathFor(command: projectCommand))
                     }
                 }
         }

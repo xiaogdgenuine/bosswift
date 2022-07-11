@@ -29,7 +29,9 @@ class TaskScheduler: ObservableObject {
         }
         taskStatusUpdateTimer?.fire()
 
-        setupDefaultShellEnvironments()
+        if appSetting.firstCommandSuccessfullyStarted {
+            setupDefaultShellEnvironments()
+        }
     }
 
     func generateNewScreenId() -> String {

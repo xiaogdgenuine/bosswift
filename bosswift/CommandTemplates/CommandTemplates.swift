@@ -95,6 +95,7 @@ enum CommandTemplates {
             fi
 
             # fetch submodules
+            cd "${NEW_WOKRTREE_DESTINATION}"
             git submodule update --init --recursive
             # insert your after-create-worktree-script here, like copy node_modules from original branch
             # cp -r "${BOSSWIFT_WORKTREE_PATH}/node_modules" "${NEW_WOKRTREE_DESTINATION}/node_modules"
