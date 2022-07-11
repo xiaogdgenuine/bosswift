@@ -2,6 +2,9 @@
 
 Bosswift work along with [git worktree](https://git-scm.com/docs/git-worktree) to give you power everyday.
 
+System Requirement:
+macOS 11.0+
+
 ## A troublesome thing
 
 ![bosswift_cover](https://s2.loli.net/2022/07/10/AOeoQdW5Nk7pliG.jpg)
