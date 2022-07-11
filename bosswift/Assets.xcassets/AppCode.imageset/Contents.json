@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "appcode-1-logo-png-transparent.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "appcode-1-logo-png-transparent-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "appcode-1-logo-png-transparent-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
