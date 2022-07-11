@@ -6,7 +6,7 @@ import AppKit
 let appSetting = AppSetting()
 
 class AppSetting: ObservableObject {
-    let taskServerListenPort: UInt16 = 7893
+    let taskServerListenPort: UInt16 = 62173
 
     @UserDefaultSetting("BASE_FOLDER")
     var baseFolder: String? = nil {

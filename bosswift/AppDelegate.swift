@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         TaskScheduler.shared.setup()
         TaskMonitorServer.start()
 
+        clearCommandScripts()
         setupDefaultCommands()
 
         let maxUniversalCommandId = appSetting.universalCommands.max { $0.id < $1.id }?.id ?? 0
@@ -69,6 +70,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         TaskScheduler.shared.terminateAllTasks()
 
         return .terminateNow
+    }
+
+    func clearCommandScripts() {
+        let files = (try? FileManager.default.contentsOfDirectory(at: Storage.commandsDirectory, includingPropertiesForKeys: nil)) ?? []
+        files.forEach { url in
+            if url.path.hasSuffix(".sh") {
+                try? FileManager.default.removeItem(at: url)
+            }
+        }
     }
 
     func setupDefaultCommands() {

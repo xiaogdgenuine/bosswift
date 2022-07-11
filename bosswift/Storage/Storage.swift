@@ -74,7 +74,7 @@ enum Storage {
                 fi
                 exit 0
               else
-                curl -s \"http://127.0.0.1:\(port)/stop?taskId=\(encodedTaskId)\" > /dev/null
+                curl -s "http://127.0.0.1:\(port)/stop?taskId=\(encodedTaskId)" > /dev/null
                 exit 0
               fi
             }
