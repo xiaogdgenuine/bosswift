@@ -34,6 +34,21 @@ enum CommandTemplates {
             Command(id: latestCommandId, commandKeyword: "finder", displayName: "Open in finder", scripts: [.script(content: "open .")], runSilently: true),
             Command(id: latestCommandId, commandKeyword: "vscode", displayName: "Open in VS Code", scripts: [.script(content: "open -b com.microsoft.VSCode $BOSSWIFT_WORKTREE_PATH")], runSilently: true),
             Command(id: latestCommandId, commandKeyword: "xed", displayName: "Open in Xcode", scripts: [.script(content: "xed .")], runSilently: true),
+            Command(id: latestCommandId, commandKeyword: "browser", displayName: "Open in Browser", scripts: [.script(content:
+                """
+                DomainRaw=$(git remote get-url --push origin | grep -o '@.*:')
+                DomainRawLength=${#DomainRaw}
+                DomainRawEndIndex=$(($DomainRawLength - 1))
+                Domain=$(echo $DomainRaw | cut -c 2-$DomainRawEndIndex)
+
+                RepoRaw=$(git remote get-url --push origin | grep -o ':.*\\.')
+                RepoRawLength=${#RepoRaw}
+                RepoRawEndIndex=$(($RepoRawLength - 1))
+                Repo=$(echo $RepoRaw | cut -c 2-$RepoRawEndIndex)
+
+                echo "open https://${Domain}/${Repo}"
+                open "https://${Domain}/${Repo}"
+                """)], runSilently: true),
             Command(id: latestCommandId, commandKeyword: "git-create-worktree", displayName: "Git: create a new worktree base on this branch", scripts: [.script(content:
             """
             # Modify this if you want a different working folder for new worktrees
@@ -130,7 +145,7 @@ enum CommandTemplates {
                 COMMAND="xcodebuild -resolvePackageDependencies -IDECustomDerivedDataLocation=$HOME/Library/Developer/Xcode/DerivedData"
                 if [ "$BOSSWIFT_XCODE_WORKSPACE_FILE" != "" ]
                 then
-                    $COMMAND="${COMMAND} -workspace ${BOSSWIFT_XCODE_WORKSPACE_FILE} -list"
+                    COMMAND="${COMMAND} -workspace ${BOSSWIFT_XCODE_WORKSPACE_FILE} -list"
                 fi
                 $COMMAND
                 """)]),
