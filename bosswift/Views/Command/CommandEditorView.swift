@@ -72,6 +72,7 @@ struct CommandEditorView: View {
                         changed = true
                     })
                     TextEditor(text: scriptBinding)
+                        .autocorrectionDisabled(true)
                         .foregroundColor(.secondary)
                         .frame(minHeight: 250, maxHeight: 400)
                         .onExitCommand { exit() }

@@ -34,6 +34,9 @@ enum Storage {
         if let branch = branch {
             environments = """
             source '\(commandRCFilePath.path)'
+            export LC_ALL=en_US.UTF-8
+            export LANG=en_US.UTF-8
+            
             BOSSWIFT_WORK_FOLDER="\(appSetting.baseFolder ?? "")"
             BOSSWIFT_PROJECT_NAME="\(branch.project.name)"
             BOSSWIFT_BRANCH_NAME="\(branch.name)"
