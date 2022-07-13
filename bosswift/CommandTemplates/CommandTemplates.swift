@@ -77,23 +77,27 @@ enum CommandTemplates {
             then
                 # No local branch with this name, let's check remote
                 set +e
+                echo “Checking branch in remote…”
                 git fetch origin ${NEW_BRANCH_NAME}
 
                 if [[ $? -ne 128 ]]
                 then
-                    set -e
                     # A remote branch exist with same name, create the worktree with a temp branch, then checkout to target branch, delete the temp branch.
+                    echo “A branch in remote has same name, fetching…”
                     TEMP_BRANCH="${NEW_BRANCH_NAME}_bosswift_temp"
-                    git branch -d "${TEMP_BRANCH}"
+                    set +e
+                    git branch -D "${TEMP_BRANCH}"
 
-                    git worktree add -b "${NEW_BRANCH_NAME}" "${NEW_WOKRTREE_DESTINATION}" "${BOSSWIFT_BRANCH_NAME}"
+                    set -e
+                    git worktree add -b "${TEMP_BRANCH}" "${NEW_WOKRTREE_DESTINATION}" "${BOSSWIFT_BRANCH_NAME}"
 
                     cd "${NEW_WOKRTREE_DESTINATION}"
                     git checkout "${NEW_BRANCH_NAME}"
-                    git branch -d "${TEMP_BRANCH}"
+                    git branch -D "${TEMP_BRANCH}"
                 else
                     set -e
                     # There is not corresponding branch on remote either, let's create a fresh new worktree
+                    echo “This is a fresh new branch, creating…”
                     git worktree add -b "${NEW_BRANCH_NAME}" "${NEW_WOKRTREE_DESTINATION}" "${BOSSWIFT_BRANCH_NAME}"
                 fi
             else
@@ -128,13 +132,21 @@ enum CommandTemplates {
                 """)], runSilently: false),
             Command(id: latestCommandId, commandKeyword: "git-delete-worktree", displayName: "Git: Delete worktree", scripts: [.script(content:
                 """
-                git worktree remove "${BOSSWIFT_WORKTREE_PATH}"
+                set +e
+                rm -r "${BOSSWIFT_WORKTREE_PATH}"
+                cd "${BOSSWIFT_DEFAULT_WORKTREE_PATH}"
+                git worktree prune
+
                 # insert your after-delete-worktree-script here, like delete xcode derived data
                 # rm -rf "${BOSSWIFT_XCODE_DERIVED_PATH}"
                 """)], runSilently: false),
             Command(id: latestCommandId, commandKeyword: "git-delete-worktree-force", displayName: "Git: Delete worktree (Force)", scripts: [.script(content:
                 """
-                git worktree remove "${BOSSWIFT_WORKTREE_PATH}" -f
+                set +e
+                rm -rf "${BOSSWIFT_WORKTREE_PATH}"
+                cd "${BOSSWIFT_DEFAULT_WORKTREE_PATH}"
+                git worktree prune
+
                 # insert your after-delete-worktree-script here, like delete xcode derived data
                 # rm -rf "${BOSSWIFT_XCODE_DERIVED_PATH}"
                 """)], runSilently: false)

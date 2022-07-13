@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Introspect
 
 class CommandEditModel: ObservableObject {
     var commandId: Int?
@@ -73,6 +74,7 @@ struct CommandEditorView: View {
                     })
                     TextEditor(text: scriptBinding)
                         .autocorrectionDisabled(true)
+                        .introspectTextView { $0.isAutomaticQuoteSubstitutionEnabled = false }
                         .foregroundColor(.secondary)
                         .frame(minHeight: 250, maxHeight: 400)
                         .onExitCommand { exit() }
