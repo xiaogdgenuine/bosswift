@@ -42,6 +42,23 @@ enum TaskMonitorServer {
                 stopTask(id: taskId, failed: isFailed)
                 return .ok(.htmlBody("Stopped"))
             }
+            server["/xcode/derived-path"] = { req in
+                // 如果有 workspace 或者 xcodeproj 文件，则 derived 开头为对应的名字，否则就是文件夹名字
+                let home = FileManager.default.homeDirectoryForCurrentUser.path
+                let repoFolder = (req.queryParams.first{ $0.0 == "folder" }?.1 ?? "").removingPercentEncoding ?? ""
+                let workspaceFile = req.queryParams.first{ $0.0 == "workspace" }?.1
+                let projectFile = req.queryParams.first{ $0.0 == "xcodeproj" }?.1 ?? ""
+
+                let branchHash = hashStringForPath(repoFolder + "/" + (workspaceFile ?? projectFile ?? "")) ?? ""
+                var derivedDataPrefix = String(repoFolder.split(separator: "/").last ?? "")
+
+                if let projectName = (workspaceFile ?? projectFile)?.split(separator: ".").first {
+                    derivedDataPrefix = String(projectName)
+                }
+
+                let derivedPath = "\(home)/Library/Developer/Xcode/DerivedData/\(derivedDataPrefix)-\(branchHash)"
+                return .ok(.text(derivedPath))
+            }
 
             let semaphore = DispatchSemaphore(value: 0)
             do {

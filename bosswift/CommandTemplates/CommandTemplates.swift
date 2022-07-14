@@ -116,6 +116,38 @@ enum CommandTemplates {
             # fetch submodules
             cd "${NEW_WOKRTREE_DESTINATION}"
             git submodule update --init --recursive
+
+            # Copy Swift package cache from old worktree
+            set +e
+            DERIVED_PATH_EXTRA_ARGS=""
+
+            if [ ! -z "$BOSSWIFT_XCODE_PROJECT_FILE" ]
+            then
+                DERIVED_PATH_EXTRA_ARGS="&xcodeproj=${BOSSWIFT_XCODE_PROJECT_FILE}"
+            fi
+
+            if [ ! -z "$BOSSWIFT_XCODE_WORKSPACE_FILE" ]
+            then
+                DERIVED_PATH_EXTRA_ARGS="&workspace=${BOSSWIFT_XCODE_WORKSPACE_FILE}"
+            fi
+
+            ENCODED_NEW_WOKRTREE_DESTINATION=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "${NEW_WOKRTREE_DESTINATION}")
+            NEW_WORKTREE_DERIVED_DATA_PATH=$(curl -s "http://localhost:62173/xcode/derived-path?folder=${ENCODED_NEW_WOKRTREE_DESTINATION}${DERIVED_PATH_EXTRA_ARGS}")
+
+            echo ""
+            echo "Copying SPM cache from '${BOSSWIFT_XCODE_DERIVED_PATH}/SourcePackages' to '${NEW_WORKTREE_DERIVED_DATA_PATH}/SourcePackages'"
+            rm -rf "${NEW_WORKTREE_DERIVED_DATA_PATH}"
+            mkdir -p "${NEW_WORKTREE_DERIVED_DATA_PATH}"
+            yes | cp -iRP "${BOSSWIFT_XCODE_DERIVED_PATH}/SourcePackages" "${NEW_WORKTREE_DERIVED_DATA_PATH}"
+            set -e
+
+            # Copy CocoaPods cache from current worktree
+            set +e
+            echo ""
+            echo "Copying Pods cache from current worktree"
+            cp -r "${BOSSWIFT_WORKTREE_PATH}/Pods" "${NEW_WOKRTREE_DESTINATION}"
+            set -e
+
             # insert your after-create-worktree-script here, like copy node_modules from original branch
             # cp -r "${BOSSWIFT_WORKTREE_PATH}/node_modules" "${NEW_WOKRTREE_DESTINATION}/node_modules"
 
@@ -138,7 +170,7 @@ enum CommandTemplates {
                 git worktree prune
 
                 # insert your after-delete-worktree-script here, like delete xcode derived data
-                # rm -rf "${BOSSWIFT_XCODE_DERIVED_PATH}"
+                rm -rf "${BOSSWIFT_XCODE_DERIVED_PATH}"
                 """)], runSilently: false),
             Command(id: latestCommandId, commandKeyword: "git-delete-worktree-force", displayName: "Git: Delete worktree (Force)", scripts: [.script(content:
                 """
@@ -148,7 +180,7 @@ enum CommandTemplates {
                 git worktree prune
 
                 # insert your after-delete-worktree-script here, like delete xcode derived data
-                # rm -rf "${BOSSWIFT_XCODE_DERIVED_PATH}"
+                rm -rf "${BOSSWIFT_XCODE_DERIVED_PATH}"
                 """)], runSilently: false)
         ]),
         CommandGroup(groupName: "Apple Developer", commands: [
