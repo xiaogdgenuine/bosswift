@@ -35,8 +35,6 @@ enum QuickLaunchBarMode {
 }
 
 struct QuickLaunchBarView: View {
-    private let textFieldDelegate = KeyAwareTextFieldDelegate()
-
     @ObservedObject var taskScheduler = TaskScheduler.shared
     @ObservedObject var dataSource = DataSource.shared
     @State var candidateBranches: [Branch] = []
@@ -89,6 +87,34 @@ struct QuickLaunchBarView: View {
                         .onExitCommand {
                             AppDelegate.shared.statusBarController.quickLaunchWindow.close()
                         }
+                        .onKeyPress(.return) {
+                            onEnterKeyPressed()
+                            return .handled
+                        }
+                        .onKeyPress(.init(Character(UnicodeScalar(127)))) {
+                            onDeleteBackward()
+                            return .ignored
+                        }
+                        .onKeyPress(.leftArrow) {
+                            onArrowKeyMoved(.left)
+                            return .handled
+                        }
+                        .onKeyPress(.rightArrow) {
+                            onArrowKeyMoved(.right)
+                            return .handled
+                        }
+                        .onKeyPress(.upArrow) {
+                            onArrowKeyMoved(.up)
+                            return .handled
+                        }
+                        .onKeyPress(.downArrow) {
+                            onArrowKeyMoved(.down)
+                            return .handled
+                        }
+                        .onKeyPress(.tab) {
+                            onTabKeyPressed()
+                            return .handled
+                        }
                         .onChange(of: keyword) { newKeyWord in
                             if newKeyWord == "/" {
                                 mode = .pickingUniversalCommand
@@ -117,10 +143,6 @@ struct QuickLaunchBarView: View {
                                 $0.becomeFirstResponder()
                             }
                             textField = $0
-                            if $0.delegate !== textFieldDelegate {
-                                textFieldDelegate.originDelegate = $0.delegate
-                                $0.delegate = textFieldDelegate
-                            }
                         }
                         .overlay(
                             TextField("", text: keywordAutoCompleteBinding)
@@ -163,28 +185,6 @@ struct QuickLaunchBarView: View {
                 .background(Color(NSColor.textBackgroundColor))
                 .onAppear {
                     filter()
-                    textFieldDelegate.onArrowKeyMoved = { direction in
-                        navigateBy(direction: direction)
-                    }
-                    textFieldDelegate.onEnterKeyPressed = {
-                        executeCandidateItem(offset: highlightingRow)
-                    }
-                    textFieldDelegate.onTabKeyPressed = {
-                        if mode.isPickingCommand {
-                            selectHighlightedCommand()
-                        } else {
-                            keywordBeforePickBranchCommand = keyword
-                            startPickCommand(at: highlightingRow)
-                        }
-                    }
-                    textFieldDelegate.onDeleteBackward = {
-                        if keyword.isEmpty && mode != .pickingBranch {
-                            mode = .pickingBranch
-                            keyword = keywordBeforePickBranchCommand
-                            highlightingRow = candidateBranches.firstIndex { $0.id == selectedBranch?.id } ?? 0
-                            selectedBranch = nil
-                        }
-                    }
                 }
             Spacer()
         }
@@ -238,11 +238,38 @@ struct QuickLaunchBarView: View {
 }
 
 extension QuickLaunchBarView {
+
     func filter() {
         if mode.isPickingCommand {
             filterCommands()
         } else {
             filterBranches()
+        }
+    }
+
+    func onArrowKeyMoved(_ direction: MoveCommandDirection) {
+        navigateBy(direction: direction)
+    }
+
+    func onEnterKeyPressed() {
+        executeCandidateItem(offset: highlightingRow)
+    }
+
+    func onTabKeyPressed() {
+        if mode.isPickingCommand {
+            selectHighlightedCommand()
+        } else {
+            keywordBeforePickBranchCommand = keyword
+            startPickCommand(at: highlightingRow)
+        }
+    }
+
+    func onDeleteBackward() {
+        if keyword.isEmpty && mode != .pickingBranch {
+            mode = .pickingBranch
+            keyword = keywordBeforePickBranchCommand
+            highlightingRow = candidateBranches.firstIndex { $0.id == selectedBranch?.id } ?? 0
+            selectedBranch = nil
         }
     }
 
@@ -309,7 +336,7 @@ extension QuickLaunchBarView {
         }
     }
 
-    func navigateBy(direction: KeyAwareTextFieldDelegate.MoveDirection) {
+    func navigateBy(direction: MoveCommandDirection) {
         switch direction {
         case .left:
             break
@@ -354,8 +381,10 @@ extension QuickLaunchBarView {
         if let highlightedBranch = candidateBranches[safe: at],
            let highlightedKeyword = candidateBranches[safe: at]?.name,
            forceAutoComplete || highlightedKeyword.lowercased().starts(with: keyword.lowercased()) {
-            keyword = ""
-            selectedBranch = highlightedBranch
+            DispatchQueue.main.async {
+                keyword = ""
+                selectedBranch = highlightedBranch
+            }
             return true
         }
 
@@ -443,6 +472,7 @@ extension QuickLaunchBarView {
             }
         }
     }
+
 }
 
 struct QuickLaunchBar_Previews: PreviewProvider {

@@ -62,7 +62,6 @@ struct ProjectItemRowView: View {
     @Binding var editingNickNameProject: Project?
     @State var nickName = ""
     @State var textField: NSTextField?
-    private let textFieldDelegate = KeyAwareTextFieldDelegate()
 
     var body: some View {
         let projectNickName = appSetting.projectNameMappings[project.name]
@@ -88,24 +87,22 @@ struct ProjectItemRowView: View {
         })
         HStack {
             if editingNickNameProject === project {
-                TextField("Set a nick name for \"\(project.name)\"", text: $nickName).introspectTextField { textField in
-                    self.textField = textField
-                    if textField.delegate !== textFieldDelegate {
-                        textFieldDelegate.originDelegate = textField.delegate
-                        textField.delegate = textFieldDelegate
-                        textFieldDelegate.onEnterKeyPressed = {
-                            if nickName.isEmpty || nickName == project.name {
-                                appSetting.projectNameMappings[project.name] = nil
-                                project.displayName = project.name
-                            } else {
-                                appSetting.projectNameMappings[project.name] = nickName
-                                project.displayName = nickName
-                            }
-                            editingNickNameProject = nil
-                        }
-                    }
-                }.onExitCommand {
+                TextField("Set a nick name for \"\(project.name)\"", text: $nickName)
+                .onExitCommand {
                     editingNickNameProject = nil
+                }
+                .onSubmit {
+                    if nickName.isEmpty || nickName == project.name {
+                        appSetting.projectNameMappings[project.name] = nil
+                        project.displayName = project.name
+                    } else {
+                        appSetting.projectNameMappings[project.name] = nickName
+                        project.displayName = nickName
+                    }
+                    editingNickNameProject = nil
+                }
+                .introspectTextField { textField in
+                    self.textField = textField
                 }
                 .textFieldStyle(.roundedBorder)
             } else {

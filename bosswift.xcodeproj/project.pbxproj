@@ -65,7 +65,6 @@
 		B0B03DF5286C83A400E54DAF /* ProjectManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B03DF4286C83A400E54DAF /* ProjectManagerView.swift */; };
 		B0B03DF7286D12A500E54DAF /* NSImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B03DF6286D12A500E54DAF /* NSImageExtensions.swift */; };
 		B0C03925285DC1E300C41887 /* KeyboardNavigableWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C03924285DC1E300C41887 /* KeyboardNavigableWindow.swift */; };
-		B0C03927285DD8D900C41887 /* KeyAwareTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C03926285DD8D900C41887 /* KeyAwareTextFieldDelegate.swift */; };
 		B0C0392A285E1F4200C41887 /* CommandPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C03929285E1F4200C41887 /* CommandPickerView.swift */; };
 		B0C0392C285E207600C41887 /* BranchPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C0392B285E207600C41887 /* BranchPickerView.swift */; };
 		B0C0392E28602EB300C41887 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C0392D28602EB300C41887 /* StringExtensions.swift */; };
@@ -132,7 +131,6 @@
 		B0B03DF4286C83A400E54DAF /* ProjectManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProjectManagerView.swift; path = bosswift/Views/Project/ProjectManagerView.swift; sourceTree = SOURCE_ROOT; };
 		B0B03DF6286D12A500E54DAF /* NSImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NSImageExtensions.swift; path = bosswift/Extensions/NSImageExtensions.swift; sourceTree = SOURCE_ROOT; };
 		B0C03924285DC1E300C41887 /* KeyboardNavigableWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardNavigableWindow.swift; path = bosswift/Views/KeyboardNavigableWindow.swift; sourceTree = SOURCE_ROOT; };
-		B0C03926285DD8D900C41887 /* KeyAwareTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeyAwareTextFieldDelegate.swift; path = bosswift/Tools/KeyAwareTextFieldDelegate.swift; sourceTree = SOURCE_ROOT; };
 		B0C03929285E1F4200C41887 /* CommandPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommandPickerView.swift; path = bosswift/Views/QuickLaunch/CommandPickerView.swift; sourceTree = SOURCE_ROOT; };
 		B0C0392B285E207600C41887 /* BranchPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BranchPickerView.swift; path = bosswift/Views/QuickLaunch/BranchPickerView.swift; sourceTree = SOURCE_ROOT; };
 		B0C0392D28602EB300C41887 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = bosswift/Extensions/StringExtensions.swift; sourceTree = SOURCE_ROOT; };
@@ -312,7 +310,6 @@
 				47AC903827EB031700029254 /* Utils.swift */,
 				47AC902627EB031600029254 /* UserDefaultSettings.swift */,
 				B0393FE6285C4FA3001A29B1 /* AccessbilityTool.swift */,
-				B0C03926285DD8D900C41887 /* KeyAwareTextFieldDelegate.swift */,
 				B0B03DD828670EB300E54DAF /* AppEnvironment.swift */,
 				B0B03DDC2867DC8D00E54DAF /* FileChangeObserver.swift */,
 				B0B03DDE2867DF3500E54DAF /* Debouncer.swift */,
@@ -507,7 +504,6 @@
 				B0B03DF0286ABD6300E54DAF /* QuickLaunchShortcuts.swift in Sources */,
 				B08A448F286FCB9B00684D24 /* ManagerView.swift in Sources */,
 				B0393FE9285C777A001A29B1 /* OnBoardingView.swift in Sources */,
-				B0C03927285DD8D900C41887 /* KeyAwareTextFieldDelegate.swift in Sources */,
 				B0B03DEC2868A79400E54DAF /* DashboardView.swift in Sources */,
 				47AC904427EB031700029254 /* StatusbarController.swift in Sources */,
 				B08A448B286F16E400684D24 /* WelcomeView.swift in Sources */,
@@ -674,7 +670,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaogd.Bosswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -707,7 +704,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaogd.Bosswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
